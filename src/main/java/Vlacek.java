@@ -13,7 +13,7 @@ public class Vlacek {
         posledni.setPredchozi(lokomotiva);
         posledni.setUmisteni(2);
     }
-//test
+
     /**
      * Přidávejte vagonky do vlaku
      * Podmínka je že vagonek první třídy musí být vždy řazen za předchozí vagonek toho typu, pokud žádný takový není je řazen rovnou za lokomotivu
@@ -24,18 +24,49 @@ public class Vlacek {
      * @param type
      */
     public void pridatVagonek(VagonekType type) {
+        Vagonek newVagonek = new Vagonek(type);
+        switch (type) {
+                case PRVNI_TRIDA:
 
-    }
+                    lokomotiva.getNasledujici().setPredchozi(newVagonek);
+                    newVagonek.setNasledujici(lokomotiva.getNasledujici());
+                    newVagonek.setPredchozi(lokomotiva);
+                    lokomotiva.setNasledujici(newVagonek);
+                    setUmisteni();
 
-    public Vagonek getVagonekByIndex(int index) {
-        int i = 1;
-        Vagonek atIndex = lokomotiva;
-        while(i < index) {
-            atIndex = atIndex.getNasledujici();
-            i++;
+                    delka++;
+                    break;
+
+                case DRUHA_TRIDA:
+
+                    posledni.getPredchozi().setNasledujici(newVagonek);
+                    newVagonek.setPredchozi(posledni.getPredchozi());
+                    newVagonek.setNasledujici(posledni);
+                    posledni.setPredchozi(newVagonek);
+                    setUmisteni();
+
+                    delka++;
+                    break;
         }
-        return atIndex;
     }
+    public void setUmisteni() {
+        Vagonek zaLokomotivou = lokomotiva.getNasledujici();
+        for (int i = 0; i < delka; i++) {
+            zaLokomotivou.setUmisteni(zaLokomotivou.getPredchozi().getUmisteni() + 1);
+            zaLokomotivou = zaLokomotivou.getNasledujici();
+
+        }
+    }
+
+        public Vagonek getVagonekByIndex(int index) {
+            int i = 1;
+            Vagonek atIndex = lokomotiva;
+            while(i < index) {
+                atIndex = atIndex.getNasledujici();
+                i++;
+            }
+            return atIndex;
+        }
 
 
     /**
@@ -56,6 +87,10 @@ public class Vlacek {
      */
     public void pridatJidelniVagonek() {
         Vagonek jidelni = new Vagonek(VagonekType.JIDELNI);
+        lokomotiva.getNasledujici().setPredchozi(lokomotiva);
+        jidelni.setPredchozi(lokomotiva);
+        jidelni.setNasledujici(lokomotiva.getPredchozi());
+
     }
 
     /**
@@ -65,6 +100,11 @@ public class Vlacek {
      * @return
      */
     public int getDelkaByType(VagonekType type) {
+        switch (type){
+            case PRVNI_TRIDA:
+
+        }
+
         return 0;
     }
 
@@ -72,9 +112,10 @@ public class Vlacek {
      * Hledejte jidelni vagonky
      * @return
      */
-    public List<Vagonek> getJidelniVozy() {
+    public List<Vagonek> getJidelniVozy( ) {
         List<Vagonek> jidelniVozy = new LinkedList<>();
-
+        Vagonek jidelni = new Vagonek(VagonekType.JIDELNI);
+        jidelniVozy.indexOf(jidelni);
         return jidelniVozy;
     }
 
@@ -84,10 +125,20 @@ public class Vlacek {
      * @param type
      */
     public void odebratPosledniVagonekByType(VagonekType type) {
+        switch (type) {
+            case PRVNI_TRIDA:
+                posledni = posledni.getPredchozi();
+                posledni.setNasledujici(null);
+                setUmisteni();
+                delka--;
+                break;
+
+        }
 
     }
 
     public int getDelka() {
+
         return delka;
     }
 }

@@ -13,7 +13,7 @@ public class Vlacek {
         posledni.setPredchozi(lokomotiva);
         posledni.setUmisteni(2);
     }
-
+//test
     /**
      * Přidávejte vagonky do vlaku
      * Podmínka je že vagonek první třídy musí být vždy řazen za předchozí vagonek toho typu, pokud žádný takový není je řazen rovnou za lokomotivu

@@ -41,3 +41,21 @@ public class Vagonek {
         this.nasledujici = nasledujici;
     }
 }
+loadItems();
+        Map<String, Object> categoryTree = new HashMap<>();
+        int count = 0;
+        for (KasaItem item : kasaItems) {
+            String[] categories = item.getCategory().split(">");
+            Map<String, Object> temp = categoryTree;
+            for (int i = 1; i < categories.length; i++) {
+                String category = categories[i];
+                if (temp.containsKey(category)) {
+                    temp = (Map<String, Object>) temp.get(category);
+                } else {
+                    temp.put(category, new HashMap<String, Object>());
+                    temp = (Map<String, Object>) temp.get(category);
+                }
+                count++;
+            }
+        }
+        categoryTree.size();
